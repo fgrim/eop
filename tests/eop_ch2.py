@@ -18,20 +18,46 @@ class ChapterTwoTest(unittest.TestCase):
 
     def test_collision_point_non_terminating(self):
         from eop.ch2 import collision_point
-        f = lambda x: x%10
-        self.assertEquals(9, collision_point(9, f))
+        f = lambda x: (x + 1)%10
+        self.assertEquals(8, collision_point(9, f))
 
     def test_terminating_non_terminating(self):
         from eop.ch2 import terminating
-        f = lambda x: x%10
-        self.assertFalse(terminating(9, f, p=lambda x: x != 10))
+        f = lambda x: (x + 1)%10
+        self.assertFalse(terminating(2, f, p=lambda x: x != 10))
 
     def test_collision_point_terminating(self):
         from eop.ch2 import collision_point
-        f = lambda x: x%10
-        self.assertEquals(9, collision_point(9, f))
+        f = lambda x: (x + 1)%10
+        self.assertEquals(1, collision_point(2, f))
 
     def test_terminating_non_terminating(self):
         from eop.ch2 import terminating
-        f = lambda x: x%10
-        self.assertFalse(terminating(9, f, p=lambda x: x != 10))
+        f = lambda x: (x + 1)%10
+        self.assertFalse(terminating(2, f, p=lambda x: x != 10))
+
+    def test_collision_point_nonterminating_orbit(self):
+        from eop.ch2 import collision_point_nonterminating_orbit
+        f = lambda x: (x + 1)%10
+        self.assertEquals(1, collision_point_nonterminating_orbit(2, f))
+
+    def test_circular_nonterminating_orbit_iscircular(self):
+        from eop.ch2 import circular_nonterminating_orbit
+        f = lambda x: (x + 1)%10
+        self.assertTrue(circular_nonterminating_orbit(2, f))
+
+    def test_circular_nonterminating_orbit_isnotcircular(self):
+        from eop.ch2 import circular_nonterminating_orbit
+        f = lambda x: (x + 1)%10 if x > 20 else x + 2
+        self.assertFalse(circular_nonterminating_orbit(1, f))
+
+    def test_circular_terminating_not_circular(self):
+        from eop.ch2 import circular
+        f = lambda x: x + 1
+        self.assertFalse(circular(1, f, p=lambda x: x < 70))
+
+    def test_circular_terminating_not_circular(self):
+        from eop.ch2 import circular
+        f = lambda x: (x + 1)%10
+        self.assertTrue(circular(1, f, p=lambda x: x < 70))
+

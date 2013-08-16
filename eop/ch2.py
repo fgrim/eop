@@ -48,3 +48,30 @@ def terminating(x, f, p=lambda x: True):
         This returns True if the transformation did not have a cycle from x to the terminal otherwise False
     """
     return not p(collision_point(x, f, p))
+
+def collision_point_nonterminating_orbit(x, f):
+    """
+        This detects the collision point in a transformation that has a cycle
+    """
+    slow, fast = x, f(x)
+    while fast != slow:
+        slow = f(slow)
+        fast = f(f(fast))
+
+    return fast
+
+def circular_nonterminating_orbit(x, f):
+    """
+        This checks that an orbit is circular.  A circular orbit is one
+        whose distance between the collision point and the beginning of the orbit
+        is 1
+    """
+    return x == f(collision_point_nonterminating_orbit(x, f))
+
+def circular(x, f, p=lambda x: True):
+    """
+        This returns a boolean indicating whether a given transformation has a circular
+        segment or not
+    """
+    y = collision_point(x, f, p)
+    return p(y) and x == f(y)
