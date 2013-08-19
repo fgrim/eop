@@ -61,3 +61,7 @@ class ChapterTwoTest(unittest.TestCase):
         f = lambda x: (x + 1)%10
         self.assertTrue(circular(1, f, p=lambda x: x < 70))
 
+    def test_convergent_point(self):
+        from eop.ch2 import convergent_point
+        f = lambda x: x + 1 if x < 10 else x%10 + 11
+        self.assertEquals()

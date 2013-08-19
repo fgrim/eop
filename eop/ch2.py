@@ -75,3 +75,12 @@ def circular(x, f, p=lambda x: True):
     """
     y = collision_point(x, f, p)
     return p(y) and x == f(y)
+
+def convergent_point(x0, x1, f):
+    """
+        Precondition: $(\exists n \in \func{DistanceType}(F))\,n \geq 0 \wedge f^n(x0) = f^n(x1)$
+    """
+    while x0 != x1:
+        x0, x1 = f(x0), f(x1)
+    return x0
+
