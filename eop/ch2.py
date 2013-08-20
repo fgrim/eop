@@ -84,3 +84,8 @@ def convergent_point(x0, x1, f):
         x0, x1 = f(x0), f(x1)
     return x0
 
+def connection_point_nonterminating_orbit(x, f):
+    """
+    """
+    return convergent_point(
+            x, f(collision_point_nonterminating_orbit(x, f)), f)
