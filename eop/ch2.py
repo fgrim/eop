@@ -78,6 +78,8 @@ def circular(x, f, p=lambda x: True):
 
 def convergent_point(x0, x1, f):
     """
+        The covergent point is value where h steps from x and h + 1 steps from the collision point
+        we arrive at the connection point of the cycle in f.
         Precondition: $(\exists n \in \func{DistanceType}(F))\,n \geq 0 \wedge f^n(x0) = f^n(x1)$
     """
     while x0 != x1:
@@ -86,6 +88,32 @@ def convergent_point(x0, x1, f):
 
 def connection_point_nonterminating_orbit(x, f):
     """
+    Returns the connection point in an orbit with a circular element
     """
     return convergent_point(
             x, f(collision_point_nonterminating_orbit(x, f)), f)
+
+def connection_point(x, f, p):
+    """
+    The connection point is the point in the transform where the handle terminates
+    at the start of a non-terminating cycle
+    Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
+    """
+    y = collision_point(x, f, p)
+    if not p(y):
+        return y
+    return convergent_point(x, f(y), f)
+
+def convergent_point_guarded(x0, x1, y, f):
+    """
+    Exercise 2.3 For convergent_point to work, it must be called with elements whose distances
+    to the convergent point are equal.  Implement an algorithm convergent_point_guarded for use
+    when that is not to be the case, but there is an element in common to the orbits of both
+    """
+    d0 = distance(x0, y, f)
+    d1 = distance(x1, y, f)
+    if d0 < d1:
+        x1 = power_unary(x1, d1 - d0, f)
+    elif d1 < d0:
+        x0 = power_unary(x0, d0 - d1, f)
+    return convergent_point(x0, x1, f)

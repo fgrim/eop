@@ -65,3 +65,14 @@ class ChapterTwoTest(unittest.TestCase):
         from eop.ch2 import convergent_point
         f = lambda x: x + 1 if x < 10 else 10
         self.assertEquals(10, convergent_point(1, 2, f))
+
+    def test_connection_point_nonterminating_orbit(self):
+        from eop.ch2 import connection_point_nonterminating_orbit
+        f = lambda x: (x + 1)%10 if x > 20 else x + 2
+        self.assertEquals(3, connection_point_nonterminating_orbit(1, f))
+
+    def test_convergent_point_guarded(self):
+        from eop.ch2 import convergent_point_guarded
+        f = lambda x: x + 1 if x < 10 else 10
+        self.assertEquals(2, convergent_point_guarded(1, 2, 8, f))
+
