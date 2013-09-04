@@ -4,6 +4,8 @@
 """
 import itertools
 
+from .ch1 import Triple
+
 def power_unary(x, n, f):
     """
         This function calculates the function f^{n}(x) where n \element N,
@@ -104,6 +106,13 @@ def connection_point(x, f, p):
         return y
     return convergent_point(x, f(y), f)
 
+def intersection(x, y, f, p):
+    """
+        Exercise 2.2 Design an algorithm that determines, given a transformation
+        and its definition state predicate, whether the orbits of two elements
+        intersect.
+    """
+
 def convergent_point_guarded(x0, x1, y, f):
     """
     Exercise 2.3 For convergent_point to work, it must be called with elements whose distances
@@ -117,3 +126,40 @@ def convergent_point_guarded(x0, x1, y, f):
     elif d1 < d0:
         x0 = power_unary(x0, d0 - d1, f)
     return convergent_point(x0, x1, f)
+
+def orbit_structure_nonterminating_orbit(x, f):
+    """
+        This returns a triple representing the components of
+        a nonterminating orbit.  The values of the triple conform to
+        the following specification
+        Case            m0      m1      m2
+        Terminating     h - 1   0       terminal element
+        Circular        0       c - 1   x
+        \\rho shaped    h       c - 1   connection point
+
+        Where h is defined as the handle size and c is defined as the cycle size
+    """
+    y = connection_point_nonterminating_orbit(x, f)
+    return Triple(m0=distance(x, y, f), m1=distance(f(y), y, f), m2=y)
+
+def orbit_structure(x, f, p):
+    """
+       Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
+    """
+    y = connection_point(x, f, p)
+    m, n = distance(x, y, f), 0
+    if p(y):
+        n = distance(f(y), y, f)
+        # Terminating: $m = h - 1 \wedge n = 0$
+        # Otherwise:   $m = h \wedge n = c - 1$
+    return Triple(m0=m, m1=n, m2=y)
+
+"""
+    Project 2.1 Another way to detect a cycle is to repeatedly test a single
+    advancing element for equality with a sotred element while replacing
+    the stored element at ever-increasing intervals.  This and other ideas
+    are described in Sedgewick et. al. (1979), Brent (1980), and Levy (1982).
+    Implement other algorithms for orbit analysis, compare their performance
+    for different applications, and develop a new set of recommendations for
+    selecting the appropriate algorithm.
+"""

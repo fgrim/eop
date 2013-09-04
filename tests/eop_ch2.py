@@ -76,3 +76,14 @@ class ChapterTwoTest(unittest.TestCase):
         f = lambda x: x + 1 if x < 10 else 10
         self.assertEquals(2, convergent_point_guarded(1, 2, 8, f))
 
+    def test_orbit_structure_nonterminating_orbit(self):
+        from eop.ch1 import Triple
+        from eop.ch2 import orbit_structure_nonterminating_orbit
+
+    def test_random_number_generators(self):
+        """
+            Exercise 2.5 Use orbit_structure_nonterminating_orbit
+            to determine the average handle size and cycle size
+            of the pseudorandom number generators on your platform
+            for various seeds
+        """
